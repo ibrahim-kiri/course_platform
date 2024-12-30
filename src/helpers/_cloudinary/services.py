@@ -1,4 +1,5 @@
-
+from django.conf import settings
+from django.template.loader import get_template
 
 def get_cloudinary_image_object(instance,
                                 field_name='image',
@@ -19,9 +20,7 @@ def get_cloudinary_image_object(instance,
     return url
 
 video_html = """
-<video>
-<source src="{video_url}" />
-</video>
+
 """
 
 def get_cloudinary_video_object(instance,
@@ -55,5 +54,9 @@ def get_cloudinary_video_object(instance,
         video_options['crop'] = "limit"
     url = video_object.build_url(**video_options)
     if as_html:
-        return video_html.video(video_url=url).strip()
+        template_name = "videos/snippets/embed.html"
+        tmpl = get_template(template_name)
+        cloud_name = settings.CLOUDINARY_CLOUD_NAME
+        _html = tmpl.render({'video_url': url, 'cloud_name': cloud_name, 'base_color': "#007cae"})
+        return _html
     return url
