@@ -4,6 +4,9 @@ from emails import services as emails_services
 from emails.models import Email, EmailVerificationEvent
 from emails.forms import EmailForm
 
+def login_logout_template_view(request):
+    return render(request, "auth/login-logout.html", {})
+
 EMAIL_ADDRESS = settings.EMAIL_ADDRESS
 def home_view(request, *args, **kwargs):
     template_name = "home.html"
